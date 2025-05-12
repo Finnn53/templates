@@ -1,0 +1,28 @@
+<!-- templates/index.html -->
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>PingSpace Control</title>
+</head>
+<body style="text-align:center; margin-top:50px;">
+  <h1>PingSpace Steuerung 🎮</h1>
+  
+  {% if recording %}
+    <p style="color:green;">🔴 Aufnahme läuft</p>
+    <a href="/stop"><button style="padding:10px 20px;">Stoppen</button></a>
+  {% else %}
+    <p style="color:red;">⚪ Keine Aufnahme</p>
+    <a href="/start"><button style="padding:10px 20px;">Einchecken & Starten</button></a>
+  {% endif %}
+
+  <br><br>
+  <a href="/replay"><button style="padding:10px 20px;">Replay ansehen</button></a>
+
+  {% if replay_played %}
+    <h3>Replay angesehen! Möchtest du es speichern?</h3>
+    <a href="/save_replay"><button style="padding:10px 20px;">Speichern</button></a>
+    <a href="/discard_replay"><button style="padding:10px 20px;">Nicht speichern</button></a>
+  {% endif %}
+</body>
+</html>

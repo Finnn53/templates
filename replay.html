@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Replay ansehen</title>
+</head>
+<body style="text-align:center; margin-top:50px;">
+  <h1>Replay 📹</h1>
+
+  <video width="640" height="480" controls autoplay>
+    <source src="{{ url_for('static', filename='replay.mp4') }}?t={{ timestamp }}" type="video/mp4">
+    Dein Browser unterstützt kein Video-Tag.
+  </video>
+
+  <br><br>
+
+  <h3>Möchtest du das Replay speichern?</h3>
+  <a href="/save_replay"><button style="padding:10px 20px;">Speichern</button></a>
+  <a href="/discard_replay"><button style="padding:10px 20px;">Nicht speichern</button></a>
+</body>
+</html>
