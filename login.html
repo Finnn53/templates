@@ -1,0 +1,63 @@
+<!-- templates/login.html -->
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Login - PingSpace</title>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+</head>
+<body style="text-align:center; margin-top:50px;">
+  <h1>Login - PingSpace</h1>
+
+  <div id="qr-login" style="display: block;">
+    <h2>Mit QR-Code einloggen</h2>
+    <div id="reader" style="width: 300px; height: 300px; margin: auto;"></div>
+    <button onclick="toggleLoginMethod()">Manuell einloggen</button>
+  </div>
+
+  <div id="manual-login" style="display: none;">
+    <h2>Manuell einloggen</h2>
+    <form action="/login" method="POST">
+      <input type="text" name="username" placeholder="Benutzername" required><br>
+      <input type="password" name="password" placeholder="Passwort" required><br>
+      <button type="submit">Einloggen</button>
+    </form>
+    <button onclick="toggleLoginMethod()">Zurück zum QR-Login</button>
+  </div>
+
+  <script>
+    function toggleLoginMethod() {
+      const qrLogin = document.getElementById('qr-login');
+      const manualLogin = document.getElementById('manual-login');
+      qrLogin.style.display = qrLogin.style.display === 'none' ? 'block' : 'none';
+      manualLogin.style.display = manualLogin.style.display === 'none' ? 'block' : 'none';
+    }
+
+    window.addEventListener('load', function() {
+      const html5QrCode = new Html5Qrcode("reader");
+
+      Html5Qrcode.getCameras().then(cameras => {
+        if (cameras && cameras.length) {
+          html5QrCode.start(
+            { facingMode: "environment" },
+            { fps: 10, qrbox: 250 },
+            qrCodeMessage => {
+              fetch('/login_test', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ qr_code: qrCodeMessage.trim() })
+              }).then(response => {
+                if (response.redirected) {
+                  window.location.href = response.url;
+                }
+              });
+            }
+          ).catch(err => console.log("QR Code scan error: ", err));
+        }
+      }).catch(err => {
+        console.log("Camera error: ", err);
+      });
+    });
+  </script>
+</body>
+</html>
