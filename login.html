@@ -18,7 +18,7 @@
   <div id="manual-login" style="display: none;">
     <h2>Manuell einloggen</h2>
     <form action="/login" method="POST">
-      <input type="text" name="username" placeholder="Benutzername" required><br>
+      <input type="text" name="username" placeholder="Email" required><br>
       <input type="password" name="password" placeholder="Passwort" required><br>
       <button type="submit">Einloggen</button>
     </form>
@@ -50,7 +50,7 @@
                 if (response.redirected) {
                   window.location.href = response.url;
                 }
-              });
+              }).catch(err => console.log("QR Code Fetch error: ", err));
             }
           ).catch(err => console.log("QR Code scan error: ", err));
         }
